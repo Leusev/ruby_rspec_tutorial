@@ -13,30 +13,53 @@ RSpec.describe ArticlesController, type: :controller do
 
   context 'GET #show' do
     let!(:article) { Article.create(title: 'Test title', body: 'Test body') }
-    # login_user
-    it 'returns a success response' do
-      get :show, params: { id: article }
-      expect(response).to be_successful
+    context 'no user logged in' do
+      it 'returns login screen path' do
+        get :show, params: { id: article }
+        expect(response).to be_successful
+      end
+    end
+    context 'user is logged in' do
+      login_user
+      it 'returns a success response' do
+        get :show, params: { id: article }
+        expect(response).to be_successful
+      end
     end
   end
 
   context 'POST #create' do
-    # login_user
-    it 'creates an Article and returns a success response' do
-      byebug
-      expect(Article.count).to eq(0)
-      post :create, params: { title: 'Test title', body: 'Test body' }
-      expect(Article.count).to eq(1)
+    context 'no user logged in' do
+      it 'returns login screen path' do
+        post :create, params: { title: 'Test title', body: 'Test body' }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+    context 'user is logged in' do
+      login_user
+      it 'creates an Article and returns a success response' do
+        expect(Article.count).to eq(0)
+        post :create, params: { article: { title: 'Test title', body: 'Test body' } }
+        expect(Article.count).to eq(1)
+      end
     end
   end
 
   context 'DELETE #destroy' do
-    # login_user
     let!(:article) { Article.create(title: 'Test title', body: 'Test body') }
-    it 'deletes an Article and returns a success response' do
-      expect(Article.count).to eq(1)
-      delete :destroy, params: { id: article }
-      expect(Article.count).to eq(0)
+    context 'no user logged in' do
+      it 'returns login screen path' do
+        delete :destroy, params: { id: article }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+    context 'user is logged in' do
+      login_user
+      it 'deletes an Article and returns a success response' do
+        expect(Article.count).to eq(1)
+        delete :destroy, params: { id: article }
+        expect(Article.count).to eq(0)
+      end
     end
   end
 end
