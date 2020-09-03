@@ -1,0 +1,10 @@
+<h1>Home#index</h1>
+<p>Find me in app/views/home/index.html.erb</p>
+
+<td>
+  <%= link_to "Mostra Articles", articles_path %>
+  <% if signed_in? %>
+    <%= link_to "Editar", edit_article_path(article) %>
+    <%= link_to "Eliminar", article, method: :delete, data: { confirm: "¿Estàs segur de voler eliminar aquest article?" } %>
+  <% end %>
+</td>

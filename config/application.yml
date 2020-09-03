@@ -1,0 +1,20 @@
+default: &default
+  # Database configuration
+  DB_PORT: "3306"
+  DB_POOL: <%= ENV.fetch("RAILS_MAX_THREADS") { "5" } %>
+  DB_HOST: "127.0.0.1"
+  DB_DATABASE: "rspec_tutorial"
+  DB_USERNAME: "ramon"
+  DB_PASSWORD: "ramon"
+
+development:
+  <<: *default
+
+integration:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
