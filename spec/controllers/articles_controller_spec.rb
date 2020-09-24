@@ -14,7 +14,7 @@ RSpec.describe ArticlesController, type: :controller do
   context 'GET #show' do
     let!(:article) { Article.create(title: 'Test title', body: 'Test body') }
     context 'no user logged in' do
-      it 'returns login screen path' do
+      it 'returns a success response' do
         get :show, params: { id: article }
         expect(response).to be_successful
       end
